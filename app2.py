@@ -12,11 +12,14 @@ def check_bingo(board_state):
     #free space always counts towards bingo
     board_state[2][2] = True
     
-    #check rows and columns
+    #check rows
     for i in range(5):
         if all(board_state[i][j] for j in range(5)):
+            st.write(f"Bingo on row {i+1}")
             return True
-        if all (board_state[j][i] for j in range(5)):
+    #chekc columns
+    for j in range(5):    
+        if all(board_state[i][j] for i in range(5)):
             return True
         
     #check diagonals
@@ -68,11 +71,10 @@ def create_bingo_board(strings):
             if cols[col].button(button_label, key=button_key):
                 if not (row == 2 and col == 2):
                     st.session_state.board_state[row][col] = not st.session_state.board_state[row][col]
-                st.experimental_rerun()
                 if check_bingo(st.session_state.board_state):
                     st.balloons()
                     st.success('Bingo!')
-                st.experiemental_rerun()
+                st.experimental_rerun()
 
 def main():
     st.title("DISCORD BINGO")
