@@ -7,6 +7,23 @@ def load_strings():
         data = json.load(f)
     return data["generic"]
 
+
+def check_bingo(board_state):
+    #check rows and columns
+    for i in range(5):
+        if all(board_state[i][j] for j in range(5)):
+            return True
+        if all (board_state[j][i] for j in range(5)):
+            return True
+        
+    #check diagonals
+    if all(board_state[i][i] for i in range(5)):
+        return True
+    if all(board_state[i][4-i] for i in range(5)):
+        return True
+    
+    return False
+
 def create_bingo_board(strings):
     # Add CSS styling for uniform button size
     st.markdown(
@@ -53,6 +70,10 @@ def create_bingo_board(strings):
                 if not (row == 2 and col == 2):
                     st.session_state.board_state[row][col] = not st.session_state.board_state[row][col]
                 st.experimental_rerun()
+                if check_bingo(st.session_state.board_state):
+                    st.balloons()
+                    st.success('Bingo!')
+                st.experiemental_rerun()
 
 def main():
     st.title("DISCORD BINGO")
