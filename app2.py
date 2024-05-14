@@ -25,9 +25,13 @@ def create_bingo_board(strings):
 
     if "board_state" not in st.session_state:
         st.session_state.board_state = [[False for _ in range(5)] for _ in range(5)]
-        st.session_state.strings = strings
+        
+    if "strings" not in st.session_state:
+        st.session_state.strings = load_strings()
         random.shuffle(st.session_state.strings) #shuffle the strings to always get a new bingo board
-
+        
+    string_index = 0 #establish index for shuffling
+        
     cols = st.columns(5)
     bingo_letters = ["B", "I", "N", "G", "O"]
     for i, letter in enumerate(bingo_letters):
@@ -37,12 +41,17 @@ def create_bingo_board(strings):
         cols = st.columns(5)
         for col in range(5):
             button_key = f"R{row+1}C{col+1}"
-            button_text = st.session_state.strings[string_index] #get a unique string
-            button_label = button_text
-            string_index += 1
-
+            
+            if row == 2 and col == 2:
+                button_label = "Free!"
+            else:
+                button_text = st.session_state.strings[string_index]
+                button_label = "Clicked" if st.session_state.board_state[row][col] else button_text
+                string_index += 1
+                
             if cols[col].button(button_label, key=button_key):
-                st.session_state.board_state[row][col] = not st.session_state.board_state[row][col]
+                if not (row == 2 and col == 2):
+                    st.session_state.board_state[row][col] = not st.session_state.board_state[row][col]
                 st.experimental_rerun()
 
 def main():
