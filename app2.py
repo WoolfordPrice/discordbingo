@@ -9,6 +9,9 @@ def load_strings():
 
 
 def check_bingo(board_state):
+    #free space always counts towards bingo
+    board_state[2][2] = True
+    
     #check rows and columns
     for i in range(5):
         if all(board_state[i][j] for j in range(5)):
@@ -49,10 +52,6 @@ def create_bingo_board(strings):
         
     string_index = 0 #establish index for shuffling
         
-    cols = st.columns(5)
-    bingo_letters = ["B", "I", "N", "G", "O"]
-    for i, letter in enumerate(bingo_letters):
-        cols[i].button(letter, key=f"BINGO_{letter}")
     
     for row in range(5):
         cols = st.columns(5)
