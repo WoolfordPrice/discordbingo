@@ -7,6 +7,15 @@ def set_page(page, board_type=None):
     st.session_state.current_page = page
     if board_type:
         st.session_state.board_type = board_type
+        
+    # Set displa yname for each board type
+    board_names = {
+        "league": "League",
+        "arena": "Arena",
+        "tft": "TFT",
+        "soulsLike": "Souls Like"
+    }
+    st.session_state.board_name = board_names.get(board_type, "Discord")
 
 # Function to load strings from JSON
 def load_strings(board_type):
@@ -161,7 +170,8 @@ def home_page():
 
 # Main function to control page navigation
 def main():
-    st.title("Discord Bingo")
+    board_name = st.session_state.get("board_name", "Discord")
+    st.title(f"{board_name} Bingo")
 
     if "current_page" not in st.session_state:
         st.session_state.current_page = "home"
