@@ -61,8 +61,8 @@ def create_bingo_board():
         """
         <style>
         .stButton > button {
-            width: 125px;
-            height: 125px;
+            width: 115px;
+            height: 115px;
             font-size: 16px;
             margin: 10px;
         }
