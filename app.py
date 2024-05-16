@@ -4,6 +4,9 @@ import random
 
 # Function to switch pages
 def set_page(page, board_type=None):
+    if page == "home":
+        st.session_state.board_state = []
+        st.session_state.strings = []
     st.session_state.current_page = page
     if board_type:
         st.session_state.board_type = board_type
@@ -88,12 +91,12 @@ def create_bingo_board():
     )
 
     #initialize a board with no squares clicked
-    if "board_state" not in st.session_state:
+    if "board_state" not in st.session_state or not st.session_state.board_state:
         st.session_state.board_state = [[False for _ in range(5)] for _ in range(5)]
 
     #populate board type
     board_type = st.session_state.get("board_type", "generic")
-    if "strings" not in st.session_state:
+    if "strings" not in st.session_state or not st.session_state.strings:
         st.session_state.strings = load_strings(board_type)
         st.session_state.board_type = board_type
         
